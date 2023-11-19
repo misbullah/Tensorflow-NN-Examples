@@ -32,8 +32,14 @@ model.compile(optimizer='adam',
 # Train the model
 history = model.fit(train_images, train_labels, epochs=10, validation_data=(test_images, test_labels))
 
+# Save the model to a file
+model.save('model_mnist_fashion.h5')
+
+# Load the saved model
+load_model = tf.keras.models.load_model('model_mnist_fashion.h5')
+
 # Evaluate the model
-test_loss, test_acc = model.evaluate(test_images, test_labels)
+test_loss, test_acc = load_model.evaluate(test_images, test_labels)
 print(f'Test accuracy: {test_acc}')
 
 # Plot training history
@@ -42,4 +48,9 @@ plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
+
+# Save the plot as an image file
+plt.savefig('train_test_plot_mnist_fashion.png')
+
+# Show the plot
 plt.show()
