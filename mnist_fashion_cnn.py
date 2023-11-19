@@ -1,7 +1,11 @@
 import tensorflow as tf
 from tensorflow.keras import layers, models
+from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.datasets import fashion_mnist
 import matplotlib.pyplot as plt
+
+# Create a TensorBoard callback
+tensorboard_callback = TensorBoard(log_dir='./logs', histogram_freq=1)
 
 # Load dataset
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -30,7 +34,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 # Train the model
-history = model.fit(train_images, train_labels, epochs=10, validation_data=(test_images, test_labels))
+history = model.fit(train_images, train_labels, epochs=10, validation_data=(test_images, test_labels), callbacks=[tensorboard_callback])
 
 # Save the model to a file
 model.save('model_mnist_fashion.h5')
